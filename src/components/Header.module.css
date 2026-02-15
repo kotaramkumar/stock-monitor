@@ -1,0 +1,42 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1.5rem;
+  background: #1a1d29;
+  border-bottom: 1px solid #2d3148;
+  gap: 1rem;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.logo {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #00c853;
+  font-family: monospace;
+}
+
+.title {
+  font-size: 1.25rem;
+  margin: 0;
+  color: #e0e0e0;
+  font-weight: 600;
+}
+
+@media (max-width: 600px) {
+  .header {
+    flex-direction: column;
+    padding: 0.75rem;
+  }
+
+  .title {
+    font-size: 1rem;
+  }
+}

@@ -1,0 +1,41 @@
+.container {
+  margin-top: 1rem;
+}
+
+.rangeButtons {
+  display: flex;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+
+.rangeBtn {
+  background: #252836;
+  border: 1px solid #3a3f55;
+  color: #9ca3af;
+  padding: 0.35rem 0.75rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 600;
+  transition: all 0.15s;
+}
+
+.rangeBtn:hover {
+  border-color: #00c853;
+  color: #e0e0e0;
+}
+
+.active {
+  background: #00c853;
+  border-color: #00c853;
+  color: #000;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  color: #6b7280;
+  font-size: 0.9rem;
+}
