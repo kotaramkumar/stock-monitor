@@ -1,4 +1,6 @@
-const API_KEY = process.env.REACT_APP_FINNHUB_API_KEY;
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const API_KEY = 'd68ij6pr01qq5rjfmomgd68ij6pr01qq5rjfmon0';
 const BASE_URL = 'https://finnhub.io/api/v1';
 
 async function fetchAPI(endpoint, params = {}) {
@@ -47,25 +49,24 @@ export async function getCompanyProfile(symbol) {
   return fetchAPI('/stock/profile2', { symbol });
 }
 
-// Build chart data from the current quote's intraday points (open, low, high, close)
-// and persist historical closing prices in localStorage for multi-day charts
 const HISTORY_KEY = 'stock-monitor-price-history';
 
-function loadPriceHistory() {
+async function loadPriceHistory() {
   try {
-    return JSON.parse(localStorage.getItem(HISTORY_KEY)) || {};
+    const data = await AsyncStorage.getItem(HISTORY_KEY);
+    return data ? JSON.parse(data) : {};
   } catch {
     return {};
   }
 }
 
-function savePriceHistory(history) {
-  localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+async function savePriceHistory(history) {
+  await AsyncStorage.setItem(HISTORY_KEY, JSON.stringify(history));
 }
 
-export function recordQuoteHistory(symbol, quote) {
+export async function recordQuoteHistory(symbol, quote) {
   if (!quote || !quote.currentPrice) return;
-  const history = loadPriceHistory();
+  const history = await loadPriceHistory();
   if (!history[symbol]) history[symbol] = [];
 
   const today = new Date().toISOString().slice(0, 10);
@@ -84,13 +85,11 @@ export function recordQuoteHistory(symbol, quote) {
     });
   }
 
-  // Keep last 365 days
   history[symbol] = history[symbol].slice(-365);
-  savePriceHistory(history);
+  await savePriceHistory(history);
 }
 
-export function getChartData(symbol, quote) {
-  // Build intraday points from current quote
+export async function getChartData(symbol, quote) {
   const intradayPoints = [];
   if (quote) {
     const now = Date.now();
@@ -115,8 +114,7 @@ export function getChartData(symbol, quote) {
     }
   }
 
-  // Load historical data
-  const history = loadPriceHistory();
+  const history = await loadPriceHistory();
   const historicalPoints = (history[symbol] || []).map((p) => ({
     time: new Date(p.date).getTime(),
     close: p.close,

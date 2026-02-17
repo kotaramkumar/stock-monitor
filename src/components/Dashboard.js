@@ -1,5 +1,6 @@
 import React from 'react';
 import MarketOverview from './MarketOverview';
+import HighVolumeStocks from './HighVolumeStocks';
 import Watchlist from './Watchlist';
 import styles from './Dashboard.module.css';
 
@@ -7,6 +8,7 @@ function Dashboard({ watchlist, quotes, onSelectStock, onRemoveSymbol, onAddSymb
   return (
     <div className={styles.dashboard}>
       <MarketOverview />
+      <HighVolumeStocks onSelectStock={onSelectStock} />
       <Watchlist
         watchlist={watchlist}
         quotes={quotes}

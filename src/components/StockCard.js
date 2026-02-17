@@ -5,7 +5,7 @@ import styles from './StockCard.module.css';
 function StockCard({ symbol, quote, onClick, onRemove }) {
   if (!quote) {
     return (
-      <div className={styles.card}>
+      <div className={styles.card} onClick={() => onClick && onClick(symbol)}>
         <div className={styles.symbolRow}>
           <span className={styles.symbol}>{symbol}</span>
           {onRemove && (

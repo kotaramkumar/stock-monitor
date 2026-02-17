@@ -92,7 +92,7 @@ function StockDetail({ symbol, isInWatchlist, onAddToWatchlist, onRemoveFromWatc
 
       {profile && (profile.finnhubIndustry || profile.country) && (
         <div className={styles.profileSection}>
-          <h3 className={styles.profileTitle}>Company Info</h3>
+          <h3 className={styles.profileTitle}>{profile.finnhubIndustry ? 'Company Info' : 'Fund Info'}</h3>
           <div className={styles.profileGrid}>
             {profile.finnhubIndustry && (
               <div className={styles.profileItem}>

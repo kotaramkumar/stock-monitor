@@ -121,6 +121,7 @@ function Watchlist({ watchlist, quotes, onSelectStock, onRemoveSymbol, onAddSymb
                       onClick={() => handleAdd(item.symbol)}
                     >
                       <span className={styles.addSymbol}>{item.symbol}</span>
+                      {item.type === 'ETP' && <span className={styles.etfBadge}>ETF</span>}
                       <span className={styles.addDesc}>{item.description}</span>
                       {watchlist.includes(item.symbol) ? (
                         <span className={styles.alreadyAdded}>Added</span>

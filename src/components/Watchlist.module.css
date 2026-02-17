@@ -205,3 +205,13 @@
   font-style: italic;
   white-space: nowrap;
 }
+
+.etfBadge {
+  background: #1a3a5c;
+  color: #4fc3f7;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 0.1rem 0.35rem;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
