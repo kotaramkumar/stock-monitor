@@ -7,23 +7,19 @@ import WatchlistSection from '../components/Watchlist';
 import { useStockData } from '../hooks/useStockData';
 import colors from '../theme/colors';
 
-export default function DashboardScreen({ navigation, watchlist, addSymbol, removeSymbol }) {
+export default function DashboardScreen({ onSelectStock, watchlist, addSymbol, removeSymbol }) {
   const { quotes } = useStockData(watchlist);
-
-  const handleSelectStock = (symbol) => {
-    navigation.navigate('StockDetail', { symbol });
-  };
 
   return (
     <SafeAreaView style={s.safe} edges={['top']}>
       <ScrollView style={s.container}>
         <Text style={s.title}>Stock Monitor</Text>
-        <MarketOverview />
-        <HighVolumeStocks onSelectStock={handleSelectStock} />
+        <MarketOverview onSelectStock={onSelectStock} />
+        <HighVolumeStocks onSelectStock={onSelectStock} />
         <WatchlistSection
           watchlist={watchlist}
           quotes={quotes}
-          onSelectStock={handleSelectStock}
+          onSelectStock={onSelectStock}
           onRemoveSymbol={removeSymbol}
           onAddSymbol={addSymbol}
         />

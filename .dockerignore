@@ -1,0 +1,12 @@
+node_modules
+build
+.git
+.gitignore
+.idea
+.env
+.env.local
+*.md
+Dockerfile
+docker-compose.yml
+Jenkinsfile
+k8s

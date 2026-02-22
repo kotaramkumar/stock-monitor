@@ -36,20 +36,18 @@
         "INTERNET"
       ]
     },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    },
+    "platforms": ["ios", "android"],
     "extra": {
       "eas": {
-        "projectId": "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+        "projectId": "1984d6e1-df7e-48a2-8f33-72509b3d06ba"
       }
     },
-    "owner": "stockmonitor-dev",
+    "owner": "ramkumark",
     "runtimeVersion": {
       "policy": "sdkVersion"
     },
     "updates": {
-      "url": "https://u.expo.dev/a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+      "url": "https://u.expo.dev/1984d6e1-df7e-48a2-8f33-72509b3d06ba"
     }
   }
 }

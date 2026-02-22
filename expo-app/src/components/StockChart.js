@@ -128,7 +128,7 @@ export default function StockChart({ symbol }) {
             y2={tick.y}
             stroke={colors.border}
             strokeWidth={1}
-            strokeDasharray={[4, 4]}
+            strokeDasharray="4,4"
           />
         ))}
 

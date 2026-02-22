@@ -5,8 +5,7 @@ import { getQuote, getCompanyProfile } from '../services/finnhub';
 import StockChart from '../components/StockChart';
 import colors from '../theme/colors';
 
-export default function StockDetailScreen({ route, isInWatchlist, addSymbol, removeSymbol }) {
-  const { symbol } = route.params;
+export default function StockDetailScreen({ symbol, onBack, isInWatchlist, addSymbol, removeSymbol }) {
   const [quote, setQuote] = useState(null);
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -32,6 +31,9 @@ export default function StockDetailScreen({ route, isInWatchlist, addSymbol, rem
   if (loading) {
     return (
       <SafeAreaView style={s.safe}>
+        <TouchableOpacity style={s.backBtn} onPress={onBack}>
+          <Text style={s.backText}>← Back</Text>
+        </TouchableOpacity>
         <Text style={s.loadingText}>Loading {symbol}...</Text>
       </SafeAreaView>
     );
@@ -40,14 +42,18 @@ export default function StockDetailScreen({ route, isInWatchlist, addSymbol, rem
   const isPositive = quote?.change >= 0;
 
   return (
-    <SafeAreaView style={s.safe} edges={['bottom']}>
+    <SafeAreaView style={s.safe}>
       <ScrollView style={s.container} contentContainerStyle={s.content}>
+        <TouchableOpacity style={s.backBtn} onPress={onBack}>
+          <Text style={s.backText}>← Back to Dashboard</Text>
+        </TouchableOpacity>
+
         <View style={s.header}>
           <View style={s.titleRow}>
             {profile?.logo ? (
               <Image source={{ uri: profile.logo }} style={s.logo} />
             ) : null}
-            <View>
+            <View style={s.titleInfo}>
               <Text style={s.symbol}>{symbol}</Text>
               <Text style={s.name}>{profile?.name || symbol}</Text>
             </View>
@@ -141,6 +147,8 @@ const s = StyleSheet.create({
   safe: { flex: 1, backgroundColor: colors.background },
   container: { flex: 1 },
   content: { padding: 16 },
+  backBtn: { paddingHorizontal: 16, paddingTop: 12, paddingBottom: 8 },
+  backText: { color: colors.accent, fontSize: 16, fontWeight: '600' },
   loadingText: { color: colors.secondaryText, textAlign: 'center', marginTop: 40, fontSize: 16 },
   header: {
     flexDirection: 'row',
@@ -149,6 +157,7 @@ const s = StyleSheet.create({
     marginBottom: 16,
   },
   titleRow: { flexDirection: 'row', alignItems: 'center', flex: 1 },
+  titleInfo: { flex: 1 },
   logo: { width: 40, height: 40, borderRadius: 8, marginRight: 10 },
   symbol: { color: colors.text, fontSize: 22, fontWeight: '800' },
   name: { color: colors.secondaryText, fontSize: 14 },
@@ -171,7 +180,6 @@ const s = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     marginTop: 12,
-    gap: 0,
   },
   stat: {
     width: '50%',
