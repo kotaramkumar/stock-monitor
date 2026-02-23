@@ -34,6 +34,7 @@ export async function getQuote(symbol) {
     openPrice: data.o,
     previousClose: data.pc,
     timestamp: data.t,
+    volume: data.v,
   };
 }
 
@@ -124,6 +125,39 @@ export async function getChartData(symbol, quote) {
   }));
 
   return { intradayPoints, historicalPoints };
+}
+
+export async function getMetrics(symbol) {
+  const data = await fetchAPI('/stock/metric', { symbol, metric: 'all' });
+  const m = data.metric || {};
+  return {
+    pe: m.peBasicExclExtraTTM ?? null,
+    pb: m.pbAnnual ?? null,
+    week52High: m['52WeekHigh'] ?? null,
+    week52Low: m['52WeekLow'] ?? null,
+  };
+}
+
+export async function getMultipleMetrics(symbols) {
+  const results = {};
+  const batchSize = 5;
+
+  for (let i = 0; i < symbols.length; i += batchSize) {
+    const batch = symbols.slice(i, i + batchSize);
+    await Promise.all(batch.map(async (symbol) => {
+      try {
+        results[symbol] = await getMetrics(symbol);
+      } catch {
+        results[symbol] = null;
+      }
+    }));
+
+    if (i + batchSize < symbols.length) {
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+    }
+  }
+
+  return results;
 }
 
 export async function getMultipleQuotes(symbols) {

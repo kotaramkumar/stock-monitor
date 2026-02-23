@@ -3,7 +3,13 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Sparkline from './Sparkline';
 import colors from '../theme/colors';
 
-export default function StockCard({ symbol, quote, onPress, onRemove }) {
+function formatVolume(v) {
+  if (v >= 1_000_000) return (v / 1_000_000).toFixed(1) + 'M';
+  if (v >= 1_000) return (v / 1_000).toFixed(0) + 'K';
+  return v.toString();
+}
+
+export default function StockCard({ symbol, quote, metrics, onPress, onRemove }) {
   if (!quote) {
     return (
       <TouchableOpacity style={s.card} onPress={() => onPress && onPress(symbol)}>
@@ -36,6 +42,15 @@ export default function StockCard({ symbol, quote, onPress, onRemove }) {
       <Text style={[s.change, isPositive ? s.positive : s.negative]}>
         {isPositive ? '+' : ''}{quote.change?.toFixed(2)} ({isPositive ? '+' : ''}{quote.percentChange?.toFixed(2)}%)
       </Text>
+      {quote.volume != null && (
+        <Text style={s.volume}>Vol: {formatVolume(quote.volume)}</Text>
+      )}
+      {metrics?.pe > 0 && (
+        <Text style={s.metric}>P/E: {metrics.pe.toFixed(1)}</Text>
+      )}
+      {metrics?.pb > 0 && (
+        <Text style={s.metric}>P/B: {metrics.pb.toFixed(2)}</Text>
+      )}
       <View style={s.chartArea}>
         <Sparkline quote={quote} height={60} width={145} />
       </View>
@@ -83,6 +98,8 @@ const s = StyleSheet.create({
   },
   positive: { color: colors.green },
   negative: { color: colors.red },
+  volume: { color: colors.secondaryText, fontSize: 11 },
+  metric: { color: colors.secondaryText, fontSize: 11 },
   loading: { color: colors.secondaryText, fontSize: 13 },
   chartArea: { marginTop: 2 },
 });
